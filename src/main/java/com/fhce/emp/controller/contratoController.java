@@ -22,7 +22,7 @@ import com.fhce.emp.model.empleadomoduloModel;
 @RequestMapping("fhce-egovf-emp/contrato") //develop
 //@RequestMapping("biometrico") //production
 //@CrossOrigin("http://svfhce.umsa.bo/") //debelop Fhce
-@CrossOrigin("http://192.168.31.47:8080/") //debelop house
+@CrossOrigin("http://192.168.31.45:8080/") //debelop house
 public class contratoController {
 	
 	@Autowired
