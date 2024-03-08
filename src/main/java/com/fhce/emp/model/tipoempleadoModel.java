@@ -18,6 +18,14 @@ public class tipoempleadoModel {
 	
 	@Column
 	private String _01detalle;
+	
+	@Column
+	private String _02corto;
+	
+	@Column
+	private String _03imagen;
+	
+	
 
 	public Long getId() {
 		return id;
@@ -34,4 +42,22 @@ public class tipoempleadoModel {
 	public void set_01detalle(String _01detalle) {
 		this._01detalle = _01detalle;
 	}
+
+	public String get_02corto() {
+		return _02corto;
+	}
+
+	public void set_02corto(String _02corto) {
+		this._02corto = _02corto;
+	}
+
+	public String get_03imagen() {
+		return _03imagen;
+	}
+
+	public void set_03imagen(String _03imagen) {
+		this._03imagen = _03imagen;
+	}
+	
+	
 }

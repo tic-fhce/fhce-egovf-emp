@@ -6,6 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -22,7 +23,7 @@ import com.fhce.emp.model.empleadomoduloModel;
 @RequestMapping("fhce-egovf-emp/contrato") //develop
 //@RequestMapping("biometrico") //production
 //@CrossOrigin("http://svfhce.umsa.bo/") //debelop Fhce
-@CrossOrigin("http://192.168.31.45:8080/") //debelop house
+@CrossOrigin("http://172.16.14.91:8080/") //debelop house
 public class contratoController {
 	
 	@Autowired
@@ -60,6 +61,11 @@ public class contratoController {
 	@GetMapping("/listarContratos")
 	public List<contratoModel> listarContratos(@RequestParam (value="cif") Long cif,@RequestParam (value="empleado") Long empleado){
 		return this.contratoDao.getContratos(cif, empleado);
+	}
+	
+	@PutMapping("/actualizarContrato")
+	public void setContrato(@RequestBody contratoModel contratoModel)throws Exception{
+		this.contratoDao.save(contratoModel);
 	}
 
 }

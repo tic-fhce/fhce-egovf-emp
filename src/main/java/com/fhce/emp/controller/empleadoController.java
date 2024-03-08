@@ -24,7 +24,7 @@ import com.fhce.emp.obj.empleadoObj;
 @RequestMapping("fhce-egovf-emp/empleado") //develop
 //@RequestMapping("biometrico") //production
 //@CrossOrigin("http://svfhce.umsa.bo/") //debelop Fhce
-@CrossOrigin("http://192.168.31.45:8080/") //debelop house
+@CrossOrigin("http://172.16.14.91:8080/") //debelop house
 public class empleadoController {
 	
 	@Autowired
@@ -40,6 +40,11 @@ public class empleadoController {
 	public List<empleadoModel> listar(){
 		
 		return this.empleadoDao.findAll();
+	}
+	
+	@GetMapping("/listarTipo")
+	public List<empleadoModel> listarTipo(@RequestParam (value="tipo") Long tipo){
+		return this.empleadoDao.getEmpleadoTipo(tipo, 1);
 	}
 	
 	@PostMapping("/addEmpleado")
