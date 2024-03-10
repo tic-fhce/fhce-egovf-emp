@@ -13,5 +13,5 @@ public interface empleadoDao extends JpaRepository<empleadoModel, Long>{
 	empleadoModel getEmpleado(Long cif);
 	
 	@Query(value = "select * from empleado where _02tipo_empleado_id=? and _04estado=?",nativeQuery=true)
-	List<empleadoModel> getEmpleadoTipo(Long tipo, int estado);
+	List<empleadoModel> getListaEmpleado(Long tipo, int estado);
 }

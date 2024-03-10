@@ -24,7 +24,7 @@ import com.fhce.emp.obj.empleadoObj;
 @RequestMapping("fhce-egovf-emp/empleado") //develop
 //@RequestMapping("biometrico") //production
 //@CrossOrigin("http://svfhce.umsa.bo/") //debelop Fhce
-@CrossOrigin("http://172.16.14.91:8080/") //debelop house
+@CrossOrigin("http://192.168.31.45:8080/") //debelop house
 public class empleadoController {
 	
 	@Autowired
@@ -42,9 +42,16 @@ public class empleadoController {
 		return this.empleadoDao.findAll();
 	}
 	
-	@GetMapping("/listarTipo")
-	public List<empleadoModel> listarTipo(@RequestParam (value="tipo") Long tipo){
-		return this.empleadoDao.getEmpleadoTipo(tipo, 1);
+	@GetMapping("/getListaEmpleado")
+	public List<empleadoObj> getListaEmpleado(@RequestParam (value="tipo") Long tipo){
+		List<empleadoObj> listaEmpleadoObj = new ArrayList<empleadoObj>();
+		List<empleadoModel>lE = this.empleadoDao.getListaEmpleado(tipo, 1); // Lista de Empleado que estan activados 
+		empleadoObj empleadoObj;
+		for(int i=0;i<lE.size();i++) {
+			empleadoObj = new empleadoObj(lE.get(i).getId(), lE.get(i).get_01cif(), "",lE.get(i).get_02tipo_empleado_id(), lE.get(i).get_03fecha(), lE.get(i).get_04estado(), lE.get(i).get_05salida());
+			listaEmpleadoObj.add(empleadoObj);
+		}
+		return(listaEmpleadoObj);
 	}
 	
 	@PostMapping("/addEmpleado")
@@ -64,7 +71,7 @@ public class empleadoController {
 		else {
 			empleadoObj.setId(empleadoModel.getId());
 			empleadoObj.setEstado(empleadoModel.get_04estado());
-			empleadoObj.setEmpleado(tipoempleadoDao.getTipoempleado(empleadoModel.get_02tipo_empleado_id()).get_01detalle());
+			empleadoObj.setEmpleado(this.tipoempleadoDao.getTipoempleado(empleadoModel.get_02tipo_empleado_id()).get_01detalle());
 			empleadoObj.setTipoempleado_id(empleadoModel.get_02tipo_empleado_id());
 			empleadoObj.setFecha(empleadoModel.get_03fecha());
 			empleadoObj.setSalida(empleadoModel.get_05salida());
