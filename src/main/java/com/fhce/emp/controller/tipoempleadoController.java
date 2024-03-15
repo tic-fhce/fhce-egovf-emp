@@ -19,7 +19,7 @@ import com.fhce.emp.obj.tipoempleadoObj;
 @RequestMapping("fhce-egovf-emp/tipo") //develop
 //@RequestMapping("biometrico") //production
 //@CrossOrigin("http://svfhce.umsa.bo/") //debelop Fhce
-@CrossOrigin("http://192.168.31.45:8080/") //debelop house
+@CrossOrigin("http://172.16.14.91:8080/") //debelop house
 public class tipoempleadoController {
 	
 	@Autowired
