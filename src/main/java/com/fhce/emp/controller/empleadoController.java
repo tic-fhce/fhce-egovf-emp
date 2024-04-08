@@ -7,6 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -14,9 +15,11 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.fhce.emp.dao.contratoDao;
 import com.fhce.emp.dao.empleadoDao;
+import com.fhce.emp.dao.empleadomoduloDao;
 import com.fhce.emp.dao.tipoempleadoDao;
 import com.fhce.emp.model.contratoModel;
 import com.fhce.emp.model.empleadoModel;
+import com.fhce.emp.model.empleadomoduloModel;
 import com.fhce.emp.obj.contratoObj;
 import com.fhce.emp.obj.empleadoObj;
 
@@ -35,6 +38,9 @@ public class empleadoController {
 
 	@Autowired
 	private contratoDao contratoDao;
+	
+	@Autowired
+	private empleadomoduloDao empleadoModuloDao;
 	
 	@GetMapping("/listar")
 	public List<empleadoModel> listar(){
@@ -56,10 +62,22 @@ public class empleadoController {
 	
 	@PostMapping("/addEmpleado")
 	public void addEmpleado(@RequestBody empleadoModel empleadoModel) throws Exception {
-		
 		this.empleadoDao.save(empleadoModel);
 	}
 	
+	@PutMapping("/updateEmpleado")
+	public void updateEmpleado(@RequestBody empleadoModel empleadoModel) throws Exception{
+		
+		empleadomoduloModel aux;
+		List<empleadomoduloModel>listaEmpeladoModulo = this.empleadoModuloDao.getCif(empleadoModel.get_01cif());
+		for(int i=0;i<listaEmpeladoModulo.size();i++) {
+			aux = listaEmpeladoModulo.get(i);
+			aux.set_03estado(empleadoModel.get_04estado());
+			this.empleadoModuloDao.save(aux);
+		}
+		
+		this.empleadoDao.save(empleadoModel);
+	}
 	@GetMapping("/getEmpleado")
 	public empleadoObj getEmpleado(@RequestParam (value="cif") Long cif){
 	

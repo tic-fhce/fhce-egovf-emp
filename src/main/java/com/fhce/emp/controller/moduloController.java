@@ -39,10 +39,10 @@ public class moduloController {
 	@GetMapping("/listarEmpleadoModulo")
 	public List<moduloModel>listarEmpleadoModulo(@RequestParam (value="cif") Long cif){
 		
-		List<empleadomoduloModel>listaEmpleadoModulo=empleadomoduloDao.getCif(cif);
-		List<Long>modulo=new ArrayList<Long>();
+		List<empleadomoduloModel>listaEmpleadoModulo = empleadomoduloDao.getCif(cif);
+		List<Long>modulo = new ArrayList<Long>();
 		List<moduloModel>auxModulo = this.moduloDao.findAll();
-		List<moduloModel>lista=new ArrayList<moduloModel>();
+		List<moduloModel>lista = new ArrayList<moduloModel>();
 		int indice=0;
 		for(int i=0;i<listaEmpleadoModulo.size();i++)
 			modulo.add(listaEmpleadoModulo.get(i).get_02id_modulo());
@@ -59,7 +59,7 @@ public class moduloController {
 	@GetMapping("/listarEmpleadoModuloCif")
 	public List<moduloModel>listarModuloCif(@RequestParam (value="cif") Long cif){
 		
-		List<empleadomoduloModel>listaEmpleadoModulo=empleadomoduloDao.getCif(cif);
+		List<empleadomoduloModel>listaEmpleadoModulo = empleadomoduloDao.getListaModuloEmpleado(cif);
 		List<moduloModel>lista=new ArrayList<moduloModel>();
 		for(int i=0;i<listaEmpleadoModulo.size();i++) {
 			lista.add(this.moduloDao.getModulo(listaEmpleadoModulo.get(i).get_02id_modulo()));
