@@ -5,5 +5,6 @@ import com.fhce.emp.obj.empleadoModuloDtoResponse;
 
 public interface  empleadoModuloService {
 	empleadoModuloDtoResponse addHorario(empleadoModuloDtoRequest empleadoModuloDtoRequest);
+	empleadoModuloDtoResponse addEmpleadoModulo(empleadoModuloDtoRequest empleadoModuloDtoRequest);
 
 }

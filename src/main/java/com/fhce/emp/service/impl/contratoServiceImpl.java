@@ -46,10 +46,12 @@ public class contratoServiceImpl implements contratoService{
 	
 	@Transactional
 	public contratoDtoResponse addContrato(contratoDtoRequest contratoDtoRequest) {
-		
+		//Creamos el empleado 
+		// Buscamos en la Tabla Empleado si ya existe
 		empleadoModel empleadoModel = this.empleadoDao.getEmpleado(contratoDtoRequest.getCif());
 		
 		if(empleadoModel == null) {
+			//si no existe creamos uno con el cif
 			empleadoModel = new empleadoModel();
 			empleadoModel.setCif(contratoDtoRequest.getCif());
 		}
@@ -58,10 +60,16 @@ public class contratoServiceImpl implements contratoService{
 		empleadoModel.setEstado(1);
 		empleadoModel.setSalida(contratoDtoRequest.getFin());
 		this.empleadoDao.save(empleadoModel);
+		//Terminamos de Crear el empleado
 		
-		if(contratoDtoRequest.getIdTipoEmpleado().longValue() == (long) 2 || contratoDtoRequest.getIdTipoEmpleado().longValue() == (long) 4){
+		
+		//si es del tipo 2 cremos el modulo SCC directamente 
+		if(contratoDtoRequest.getIdTipoEmpleado().longValue() == (long) 2){
+			//Buscamos en la Tabla EmpleadoModulo si ya existe
 			empleadoModuloModel empleadomoduloModel = this.empleadoModuloDao.getEmpleadoModulo(contratoDtoRequest.getCif());
+			
 			if(empleadomoduloModel == null) {
+				//si no existe creamos uno con el cif
 				empleadomoduloModel = new empleadoModuloModel();
 				empleadomoduloModel.setCif(contratoDtoRequest.getCif());
 			}
@@ -69,7 +77,9 @@ public class contratoServiceImpl implements contratoService{
 			empleadomoduloModel.setEstado(1);
 			this.empleadoModuloDao.save(empleadomoduloModel);
 		}
+		//Terminamos de crear el Modulo SCC
 		
+		//Creamos el contrato del empleado
 		contratoModel contratoModel = new contratoModel();
 		contratoModel.setCif(contratoDtoRequest.getCif());
 		contratoModel.setNumero_contrato(contratoDtoRequest.getNumero_contrato());
@@ -81,6 +91,7 @@ public class contratoServiceImpl implements contratoService{
 		contratoModel.setDetalle(contratoDtoRequest.getDetalle());
 		contratoModel.setIdTipoEmpleado(contratoDtoRequest.getIdTipoEmpleado());
 		this.contratoDao.save(contratoModel);
+		//Terminamos de Crear el contrato del empleado
 		
 		return this.modelMapper.map(contratoModel, contratoDtoResponse.class);
 	}

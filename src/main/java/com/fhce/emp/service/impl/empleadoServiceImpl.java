@@ -65,10 +65,21 @@ public class empleadoServiceImpl implements empleadoService{
 		return this.modelMapper.map(empleadoModel, empleadoDtoResponse.class);
 	}
 	public List<empleadoObj> getListaEmpleado(Long tipo) {
+		
 		List<empleadoObj> listaEmpleadoObj = new ArrayList<empleadoObj>();
-		List<empleadoModel>lE = this.empleadoDao.getListaEmpleado(tipo, 1); // Lista de Empleado que estan activados 
+		List<empleadoModel>lE = this.empleadoDao.getListaEmpleado(tipo, 1); // Lista de Empleados que estan activados 
+		boolean verificador = false;
 		empleadoObj empleadoObj;
 		for(int i=0;i<lE.size();i++) {
+			List<empleadoModuloModel>listaEmpleadoModulo = this.empleadoModuloDao.getListaModuloEmpleado(lE.get(i).getCif());
+			verificador = false;
+			for(int j=0;j<listaEmpleadoModulo.size();j++) {
+				if(listaEmpleadoModulo.get(j).getId_modulo().longValue() == (long)1)
+				{
+					verificador = true;
+					break;
+				}
+			}
 			empleadoObj = new empleadoObj();
 			empleadoObj.setId(lE.get(i).getId());
 			empleadoObj.setCif(lE.get(i).getCif());
@@ -77,8 +88,12 @@ public class empleadoServiceImpl implements empleadoService{
 			empleadoObj.setFecha(lE.get(i).getFecha());
 			empleadoObj.setEstado(lE.get(i).getEstado());
 			empleadoObj.setSalida(lE.get(i).getSalida());
+			if(verificador)
+				empleadoObj.setEmpleado("Modulo Scc");
+			
 			listaEmpleadoObj.add(empleadoObj);
 		}
+		
 		return(listaEmpleadoObj);
 	}
 	public empleadoObj getEmpleado(Long cif) {
@@ -105,6 +120,7 @@ public class empleadoServiceImpl implements empleadoService{
 			List<contratoDtoResponse>contratoDtoResponse = this.contratoDao.getContratos(cif).stream()
 			        .map(contrato -> this.modelMapper.map(contrato, contratoDtoResponse.class))
 			        .collect(Collectors.toList());
+			
 			for(int i=0;i<contratoDtoResponse.size();i++) {
 				contratoDtoResponse auxXontrato=new contratoDtoResponse();
 				auxXontrato.setId(contratoDtoResponse.get(i).getId());

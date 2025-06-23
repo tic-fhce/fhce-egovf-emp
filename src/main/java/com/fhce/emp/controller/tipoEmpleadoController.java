@@ -11,7 +11,6 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.fhce.emp.obj.tipoEmpleadoDtoResponse;
 import com.fhce.emp.service.tipoEmpleadoService;
-import com.fhce.emp.service.impl.tipoEmpleadoServiceImpl;
 
 import lombok.RequiredArgsConstructor;
 

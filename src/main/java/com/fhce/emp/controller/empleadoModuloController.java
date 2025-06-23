@@ -29,4 +29,13 @@ public class empleadoModuloController {
 			return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
 		}
 	}
+	
+	@PostMapping("/addEmpleadoModulo")
+	public ResponseEntity<empleadoModuloDtoResponse> addEmpleadoModulo(@RequestBody empleadoModuloDtoRequest empleadoModuloDtoRequest){
+		try {
+			return new ResponseEntity<>(this.empleadoModuloService.addEmpleadoModulo(empleadoModuloDtoRequest),HttpStatus.CREATED);
+		}catch(Exception e) {
+			return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
+		}
+	}
 }

@@ -26,5 +26,19 @@ public class empleadoModuloServiceImpl implements empleadoModuloService{
 		return this.modelMapper.map(empleadoModuloModel, empleadoModuloDtoResponse.class);
 		
 	}
+	
+	@Transactional
+	public empleadoModuloDtoResponse addEmpleadoModulo(empleadoModuloDtoRequest empleadoModuloDtoRequest){
+		
+		empleadoModuloModel empleadoModuloModel = new empleadoModuloModel();
+		empleadoModuloModel.setCif(empleadoModuloDtoRequest.getCif());
+		empleadoModuloModel.setId_modulo(empleadoModuloDtoRequest.getId_modulo());
+		empleadoModuloModel.setEstado(empleadoModuloDtoRequest.getEstado());
+		
+		this.empleadoModuloDao.save(empleadoModuloModel);
+		
+		return this.modelMapper.map(empleadoModuloModel, empleadoModuloDtoResponse.class);
+		
+	}
 
 }
