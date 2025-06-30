@@ -48,10 +48,16 @@ public class empleadoServiceImpl implements empleadoService{
 		
 	}
 	@Transactional
-	public empleadoDtoResponse updateEmpleado(empleadoDtoRequest empleadoDtoRequest) {
+	public empleadoDtoResponse updateEmpleado(empleadoDtoResponse empleadoDtoResponse) {
 		
 		// el Request se combierte al modelo
-		empleadoModel empleadoModel = this.modelMapper.map(empleadoDtoRequest, empleadoModel.class);
+		empleadoModel empleadoModel = new empleadoModel();
+		empleadoModel.setId(empleadoDtoResponse.getId());
+		empleadoModel.setCif(empleadoDtoResponse.getCif());
+		empleadoModel.setTipo_empleado_id(empleadoDtoResponse.getTipo_empleado_id());
+		empleadoModel.setFecha(empleadoDtoResponse.getFecha());
+		empleadoModel.setEstado(empleadoDtoResponse.getEstado());
+		empleadoModel.setSalida(empleadoDtoResponse.getSalida());
 		
 		empleadoModuloModel aux;
 		List<empleadoModuloModel>listaEmpeladoModulo = this.empleadoModuloDao.getCif(empleadoModel.getCif());

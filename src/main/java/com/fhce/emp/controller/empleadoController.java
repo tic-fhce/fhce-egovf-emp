@@ -52,9 +52,9 @@ public class empleadoController {
 		}
 	}
 	@PutMapping("/updateEmpleado")
-	public ResponseEntity<empleadoDtoResponse> updateEmpleado(@RequestBody empleadoDtoRequest empleadoDtoRequest){
+	public ResponseEntity<empleadoDtoResponse> updateEmpleado(@RequestBody empleadoDtoResponse empleadoDtoResponse){
 		try {
-			return new ResponseEntity<>(this.empleadoServise.updateEmpleado(empleadoDtoRequest),HttpStatus.OK);
+			return new ResponseEntity<>(this.empleadoServise.updateEmpleado(empleadoDtoResponse),HttpStatus.OK);
 		}catch (Exception e) {
 			return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
 		}
