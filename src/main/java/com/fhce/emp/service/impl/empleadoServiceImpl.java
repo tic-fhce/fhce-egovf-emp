@@ -1,6 +1,8 @@
 package com.fhce.emp.service.impl;
 
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -11,8 +13,10 @@ import com.fhce.emp.dao.contratoDao;
 import com.fhce.emp.dao.empleadoDao;
 import com.fhce.emp.dao.empleadoModuloDao;
 import com.fhce.emp.dao.tipoEmpleadoDao;
+import com.fhce.emp.model.contratoModel;
 import com.fhce.emp.model.empleadoModel;
 import com.fhce.emp.model.empleadoModuloModel;
+import com.fhce.emp.model.tipoempleadoModel;
 import com.fhce.emp.obj.contratoDtoResponse;
 import com.fhce.emp.obj.empleadoDtoRequest;
 import com.fhce.emp.obj.empleadoDtoResponse;
@@ -42,7 +46,13 @@ public class empleadoServiceImpl implements empleadoService{
 	
 	@Transactional
 	public empleadoDtoResponse addEmpleado(empleadoDtoRequest empleadoDtoRequest) {
-		empleadoModel empleadoModel = this.modelMapper.map(empleadoDtoRequest, empleadoModel.class);
+		empleadoModel empleadoModel = new empleadoModel();
+		empleadoModel.setCif(empleadoDtoRequest.getCif());
+		empleadoModel.setTipo_empleado_id(empleadoDtoRequest.getTipo_empleado_id());
+		empleadoModel.setFecha(empleadoDtoRequest.getFecha());
+		empleadoModel.setEstado(1);
+		empleadoModel.setSalida(empleadoDtoRequest.getSalida());
+		empleadoModel.setFoto("https://fhcevirtual.umsa.bo/egovf-img/imagenes/user.png");
 		this.empleadoDao.save(empleadoModel);
 		return this.modelMapper.map(empleadoModel, empleadoDtoResponse.class);
 		
@@ -58,6 +68,7 @@ public class empleadoServiceImpl implements empleadoService{
 		empleadoModel.setFecha(empleadoDtoResponse.getFecha());
 		empleadoModel.setEstado(empleadoDtoResponse.getEstado());
 		empleadoModel.setSalida(empleadoDtoResponse.getSalida());
+		empleadoModel.setFoto(empleadoDtoResponse.getFoto());
 		
 		empleadoModuloModel aux;
 		List<empleadoModuloModel>listaEmpeladoModulo = this.empleadoModuloDao.getCif(empleadoModel.getCif());
@@ -102,11 +113,61 @@ public class empleadoServiceImpl implements empleadoService{
 		
 		return(listaEmpleadoObj);
 	}
+	public List<empleadoObj> getEmpleados() {
+		
+		List<empleadoObj> listaEmpleadoObj = new ArrayList<empleadoObj>();
+		List<empleadoModel>lE = this.empleadoDao.getListaEmpleado(1); // Lista de Empleados que estan activados
+		List<tipoempleadoModel>tipoEmpleado = this.tipoempleadoDao.findAll();
+		List<contratoModel>contrato;
+		empleadoObj empleadoObj;
+		for(int i=0;i<lE.size();i++) {
+			empleadoObj = new empleadoObj();
+			empleadoObj.setId(lE.get(i).getId());
+			empleadoObj.setCif(lE.get(i).getCif());
+			empleadoObj.setTipoempleado_id(lE.get(i).getTipo_empleado_id());
+			empleadoObj.setEmpleado("");
+			empleadoObj.setFecha(lE.get(i).getFecha());
+			empleadoObj.setEstado(lE.get(i).getEstado());
+			empleadoObj.setSalida(lE.get(i).getSalida());
+			empleadoObj.setCargo("");
+			empleadoObj.setFoto(lE.get(i).getFoto());
+			
+			for(int j=0;j<tipoEmpleado.size();j++) {
+				if(tipoEmpleado.get(j).getId().longValue()==lE.get(i).getTipo_empleado_id()) {
+					empleadoObj.setEmpleado(tipoEmpleado.get(j).getDetalle());
+					break;
+				}
+			}
+			contrato = this.contratoDao.getContratos(lE.get(i).getCif());
+			if(contrato.size()>0) {
+				Collections.sort(contrato, Comparator.comparingLong(contratoModel::getId).reversed());
+				empleadoObj.setCargo(contrato.get(0).getCargo());
+				List<contratoDtoResponse>contr=new ArrayList<contratoDtoResponse>();
+				contratoDtoResponse c = new contratoDtoResponse();
+				c.setId(contrato.get(0).getId());
+				c.setCif(contrato.get(0).getCif());
+				c.setNumero_contrato(contrato.get(0).getNumero_contrato()); 
+				c.setServicio(contrato.get(0).getServicio());
+				c.setUnidad(contrato.get(0).getUnidad());
+				c.setInicio(contrato.get(0).getInicio());
+				c.setFin(contrato.get(0).getFin()); 
+				c.setGestion(contrato.get(0).getGestion());
+				c.setDetalle(contrato.get(0).getDetalle());
+				c.setIdTipoEmpleado(contrato.get(0).getIdTipoEmpleado());
+				c.setCargo(contrato.get(0).getCargo());
+				contr.add(c);
+				empleadoObj.setContratos(contr);
+			}
+			
+			listaEmpleadoObj.add(empleadoObj);
+		}
+		return(listaEmpleadoObj);
+	}
 	public empleadoObj getEmpleado(Long cif) {
 		
 		empleadoObj empleadoObj = new empleadoObj();
-		
 		empleadoModel empleadoModel=this.empleadoDao.getEmpleado(cif);
+		String cargo="Sin cargo por asignar";
 		if(empleadoModel==null)
 		{
 			empleadoObj.setId((long)0);
@@ -116,11 +177,13 @@ public class empleadoServiceImpl implements empleadoService{
 			empleadoObj.setId(empleadoModel.getId());
 			empleadoObj.setCif(cif);
 			empleadoObj.setEstado(empleadoModel.getEstado());
-			empleadoObj.setEmpleado(this.tipoempleadoDao.getTipoempleado(empleadoModel.getTipo_empleado_id()).getDetalle());
+			if(empleadoModel.getTipo_empleado_id()>0)
+				empleadoObj.setEmpleado(this.tipoempleadoDao.getTipoempleado(empleadoModel.getTipo_empleado_id()).getDetalle());
 			
 			empleadoObj.setTipoempleado_id(empleadoModel.getTipo_empleado_id());
 			empleadoObj.setFecha(empleadoModel.getFecha());
 			empleadoObj.setSalida(empleadoModel.getSalida());
+			empleadoObj.setFoto(empleadoModel.getFoto());
 			
 			List<contratoDtoResponse>contratoObj=new ArrayList<contratoDtoResponse>();
 			List<contratoDtoResponse>contratoDtoResponse = this.contratoDao.getContratos(cif).stream()
@@ -138,8 +201,12 @@ public class empleadoServiceImpl implements empleadoService{
 				auxXontrato.setFin(contratoDtoResponse.get(i).getFin());
 				auxXontrato.setGestion(contratoDtoResponse.get(i).getGestion());
 				auxXontrato.setDetalle(contratoDtoResponse.get(i).getDetalle());
+				auxXontrato.setIdTipoEmpleado(contratoDtoResponse.get(i).getIdTipoEmpleado());
+				auxXontrato.setCargo(contratoDtoResponse.get(i).getCargo());
+				cargo=contratoDtoResponse.get(i).getCargo();
 				contratoObj.add(auxXontrato);
 			}
+			empleadoObj.setCargo(cargo);
 			empleadoObj.setContratos(contratoObj);
 			return empleadoObj;
 		}

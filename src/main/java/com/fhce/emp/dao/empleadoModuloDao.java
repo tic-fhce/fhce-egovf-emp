@@ -11,7 +11,7 @@ public interface empleadoModuloDao extends JpaRepository<empleadoModuloModel, Lo
 	@Query(value = "select * from empleadomodulo where _01cif=?",nativeQuery=true)
 	List<empleadoModuloModel>getCif(Long cif);
 	
-	@Query(value = "select * from empleadomodulo where _01cif=? and _03estado = 1",nativeQuery=true)
+	@Query(value = "select * from empleadomodulo where _01cif=?",nativeQuery=true)
 	List<empleadoModuloModel>getListaModuloEmpleado(Long cif);
 	
 	@Query(value = "select * from empleadomodulo where _01cif=?",nativeQuery=true)

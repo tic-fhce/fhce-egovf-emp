@@ -11,5 +11,6 @@ public interface empleadoService {
 	empleadoDtoResponse addEmpleado(empleadoDtoRequest empleadoDtoRequest);
 	empleadoDtoResponse updateEmpleado(empleadoDtoResponse empleadoDtoResponse); 
 	List<empleadoObj> getListaEmpleado(Long tipo);
+	List<empleadoObj> getEmpleados();
 	empleadoObj getEmpleado(Long cif);
 }

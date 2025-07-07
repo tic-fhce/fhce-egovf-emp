@@ -53,4 +53,7 @@ public class contratoModel {
 	
 	@Column (name = "_10idtipoempleado")
 	private Long idTipoEmpleado;
+	
+	@Column (name = "_11cargo")
+	private String cargo;
 }

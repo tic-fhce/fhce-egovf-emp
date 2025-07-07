@@ -19,6 +19,8 @@ public class contratoDtoResponse {
 	private int gestion;
 	private String detalle;
 	private Long idTipoEmpleado;
+	private String foto;
+	private String cargo;
 	
 
 }

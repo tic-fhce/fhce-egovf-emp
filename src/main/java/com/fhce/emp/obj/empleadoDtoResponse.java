@@ -15,5 +15,6 @@ public class empleadoDtoResponse {
 	private String fecha;
 	private int estado;
 	private String salida;
+	private String foto;
 
 }

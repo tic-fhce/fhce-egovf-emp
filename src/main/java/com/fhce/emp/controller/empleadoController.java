@@ -43,6 +43,14 @@ public class empleadoController {
 			return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
 		}
 	}
+	@GetMapping("/getEmpleados")
+	public ResponseEntity <List<empleadoObj>> getEmpleados(){
+		try {
+			return new ResponseEntity<>(this.empleadoServise.getEmpleados(),HttpStatus.OK);
+		}catch (Exception e) {
+			return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
+		}
+	}
 	@PostMapping("/addEmpleado")
 	public ResponseEntity<empleadoDtoResponse> addEmpleado(@RequestBody empleadoDtoRequest empleadoDtoRequest){
 		try {

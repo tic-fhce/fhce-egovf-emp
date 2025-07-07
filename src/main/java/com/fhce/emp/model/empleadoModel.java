@@ -39,5 +39,8 @@ public class empleadoModel {
 	
 	@Column (name = "_05salida")
 	private String salida;
+	
+	@Column (name = "_06foto")
+	private String foto;
 
 }

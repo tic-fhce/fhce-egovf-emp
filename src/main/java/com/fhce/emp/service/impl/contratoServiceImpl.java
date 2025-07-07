@@ -90,6 +90,7 @@ public class contratoServiceImpl implements contratoService{
 		contratoModel.setGestion(contratoDtoRequest.getGestion());
 		contratoModel.setDetalle(contratoDtoRequest.getDetalle());
 		contratoModel.setIdTipoEmpleado(contratoDtoRequest.getIdTipoEmpleado());
+		contratoModel.setCargo(contratoDtoRequest.getCargo());
 		this.contratoDao.save(contratoModel);
 		//Terminamos de Crear el contrato del empleado
 		
@@ -101,18 +102,22 @@ public class contratoServiceImpl implements contratoService{
 		contratoModel contratoModel= new contratoModel();
 		contratoModel.setId(contratoDtoResponse.getId());
 		contratoModel.setCif(contratoDtoResponse.getCif());
-		contratoModel.setDetalle(contratoDtoResponse.getDetalle());
-		contratoModel.setFin(contratoDtoResponse.getFin());
-		contratoModel.setGestion(contratoDtoResponse.getGestion());
-		contratoModel.setIdTipoEmpleado(contratoDtoResponse.getIdTipoEmpleado());
-		contratoModel.setInicio(contratoDtoResponse.getInicio());
 		contratoModel.setNumero_contrato(contratoDtoResponse.getNumero_contrato());
 		contratoModel.setServicio(contratoDtoResponse.getServicio());
 		contratoModel.setUnidad(contratoDtoResponse.getUnidad());
-		
+		contratoModel.setInicio(contratoDtoResponse.getInicio());
+		contratoModel.setFin(contratoDtoResponse.getFin());
+		contratoModel.setGestion(contratoDtoResponse.getGestion());
+		contratoModel.setDetalle(contratoDtoResponse.getDetalle());
+		contratoModel.setIdTipoEmpleado(contratoDtoResponse.getIdTipoEmpleado());
+		contratoModel.setCargo(contratoDtoResponse.getCargo());
+				
 		empleadoModel empleadoModel = this.empleadoDao.getEmpleado(contratoDtoResponse.getCif());
 		empleadoModel.setFecha(contratoDtoResponse.getInicio());
 		empleadoModel.setSalida(contratoDtoResponse.getFin());
+		empleadoModel.setTipo_empleado_id(contratoDtoResponse.getIdTipoEmpleado());
+		empleadoModel.setFoto(contratoDtoResponse.getFoto());
+		
 		this.empleadoDao.save(empleadoModel);
 		
 		this.contratoDao.save(contratoModel);

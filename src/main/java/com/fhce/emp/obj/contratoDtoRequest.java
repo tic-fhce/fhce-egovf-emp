@@ -17,4 +17,5 @@ public class contratoDtoRequest {
 	private int gestion;
 	private String detalle;
 	private Long idTipoEmpleado;
+	private String cargo;
 }

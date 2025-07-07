@@ -19,6 +19,8 @@ public class empleadoObj {
 	private String fecha;
 	private int estado;
 	private String salida;
+	private String foto;
+	private String cargo;
 	private List<contratoDtoResponse>contratos;
 
 }
