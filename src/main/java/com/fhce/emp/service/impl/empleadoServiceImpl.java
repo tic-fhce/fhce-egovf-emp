@@ -186,26 +186,28 @@ public class empleadoServiceImpl implements empleadoService{
 			empleadoObj.setFoto(empleadoModel.getFoto());
 			
 			List<contratoDtoResponse>contratoObj=new ArrayList<contratoDtoResponse>();
-			List<contratoDtoResponse>contratoDtoResponse = this.contratoDao.getContratos(cif).stream()
+			List<contratoDtoResponse>contratoDtoR = this.contratoDao.getContratos(cif).stream()
 			        .map(contrato -> this.modelMapper.map(contrato, contratoDtoResponse.class))
 			        .collect(Collectors.toList());
 			
-			for(int i=0;i<contratoDtoResponse.size();i++) {
+			Collections.sort(contratoDtoR, Comparator.comparingLong(contratoDtoResponse::getId).reversed());
+			for(int i=0;i<contratoDtoR.size();i++) {
 				contratoDtoResponse auxXontrato=new contratoDtoResponse();
-				auxXontrato.setId(contratoDtoResponse.get(i).getId());
-				auxXontrato.setCif(contratoDtoResponse.get(i).getCif());
-				auxXontrato.setNumero_contrato(contratoDtoResponse.get(i).getNumero_contrato());
-				auxXontrato.setServicio(contratoDtoResponse.get(i).getServicio());
-				auxXontrato.setUnidad(contratoDtoResponse.get(i).getUnidad());
-				auxXontrato.setInicio(contratoDtoResponse.get(i).getInicio());
-				auxXontrato.setFin(contratoDtoResponse.get(i).getFin());
-				auxXontrato.setGestion(contratoDtoResponse.get(i).getGestion());
-				auxXontrato.setDetalle(contratoDtoResponse.get(i).getDetalle());
-				auxXontrato.setIdTipoEmpleado(contratoDtoResponse.get(i).getIdTipoEmpleado());
-				auxXontrato.setCargo(contratoDtoResponse.get(i).getCargo());
-				cargo=contratoDtoResponse.get(i).getCargo();
+				auxXontrato.setId(contratoDtoR.get(i).getId());
+				auxXontrato.setCif(contratoDtoR.get(i).getCif());
+				auxXontrato.setNumero_contrato(contratoDtoR.get(i).getNumero_contrato());
+				auxXontrato.setServicio(contratoDtoR.get(i).getServicio());
+				auxXontrato.setUnidad(contratoDtoR.get(i).getUnidad());
+				auxXontrato.setInicio(contratoDtoR.get(i).getInicio());
+				auxXontrato.setFin(contratoDtoR.get(i).getFin());
+				auxXontrato.setGestion(contratoDtoR.get(i).getGestion());
+				auxXontrato.setDetalle(contratoDtoR.get(i).getDetalle());
+				auxXontrato.setIdTipoEmpleado(contratoDtoR.get(i).getIdTipoEmpleado());
+				auxXontrato.setCargo(contratoDtoR.get(i).getCargo());
+				cargo=contratoDtoR.get(i).getCargo();
 				contratoObj.add(auxXontrato);
 			}
+			
 			empleadoObj.setCargo(cargo);
 			empleadoObj.setContratos(contratoObj);
 			return empleadoObj;
