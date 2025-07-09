@@ -52,7 +52,7 @@ public class empleadoServiceImpl implements empleadoService{
 		empleadoModel.setFecha(empleadoDtoRequest.getFecha());
 		empleadoModel.setEstado(1);
 		empleadoModel.setSalida(empleadoDtoRequest.getSalida());
-		empleadoModel.setFoto("https://fhcevirtual.umsa.bo/egovf-img/imagenes/user.png");
+		empleadoModel.setFoto("user.png");
 		this.empleadoDao.save(empleadoModel);
 		return this.modelMapper.map(empleadoModel, empleadoDtoResponse.class);
 		
