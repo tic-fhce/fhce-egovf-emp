@@ -67,6 +67,14 @@ public class empleadoController {
 			return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
 		}
 	}
+	@PutMapping("/updateFoto")
+	public ResponseEntity<empleadoDtoResponse> updateFoto(@RequestBody empleadoDtoResponse empleadoDtoResponse){
+		try {
+			return new ResponseEntity<>(this.empleadoServise.updateFoto(empleadoDtoResponse),HttpStatus.OK);
+		}catch (Exception e) {
+			return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
+		}
+	}
 	@GetMapping("/getEmpleado")
 	public ResponseEntity<empleadoObj> getEmpleado(@RequestParam (value="cif") Long cif){
 		try {

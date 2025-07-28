@@ -30,11 +30,18 @@ public class empleadoModuloServiceImpl implements empleadoModuloService{
 	@Transactional
 	public empleadoModuloDtoResponse addEmpleadoModulo(empleadoModuloDtoRequest empleadoModuloDtoRequest){
 		
-		empleadoModuloModel empleadoModuloModel = new empleadoModuloModel();
-		empleadoModuloModel.setCif(empleadoModuloDtoRequest.getCif());
+		//buscamos el modulo del empleado 
+		empleadoModuloModel empleadoModuloModel = this.empleadoModuloDao.getEmpleadoModulo(empleadoModuloDtoRequest.getCif());
+		
+		if(empleadoModuloModel == null) {
+			//si no existe creamos uno con el cif
+			empleadoModuloModel = new empleadoModuloModel();
+			empleadoModuloModel.setCif(empleadoModuloDtoRequest.getCif());
+		}
 		empleadoModuloModel.setId_modulo(empleadoModuloDtoRequest.getId_modulo());
 		empleadoModuloModel.setEstado(empleadoModuloDtoRequest.getEstado());
 		
+		//Guardamos el modulo del empleado
 		this.empleadoModuloDao.save(empleadoModuloModel);
 		
 		return this.modelMapper.map(empleadoModuloModel, empleadoModuloDtoResponse.class);

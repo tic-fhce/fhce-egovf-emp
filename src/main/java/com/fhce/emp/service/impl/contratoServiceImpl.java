@@ -59,6 +59,7 @@ public class contratoServiceImpl implements contratoService{
 		empleadoModel.setFecha(contratoDtoRequest.getInicio());
 		empleadoModel.setEstado(1);
 		empleadoModel.setSalida(contratoDtoRequest.getFin());
+		empleadoModel.setFoto(contratoDtoRequest.getFoto());
 		this.empleadoDao.save(empleadoModel);
 		//Terminamos de Crear el empleado
 		

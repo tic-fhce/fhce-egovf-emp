@@ -18,4 +18,5 @@ public class contratoDtoRequest {
 	private String detalle;
 	private Long idTipoEmpleado;
 	private String cargo;
+	private String foto;
 }

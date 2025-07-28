@@ -14,5 +14,6 @@ public class moduloDtoResponse {
 	private String ruta;
 	private String imagen;
 	private int idmenu;
+	private String detalle;
 
 }

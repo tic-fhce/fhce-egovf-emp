@@ -36,5 +36,8 @@ public class moduloModel {
 	
 	@Column (name = "_04idmenu")
 	private int idmenu;
+	
+	@Column (name = "_05detalle")
+	private String detalle;
 
 }

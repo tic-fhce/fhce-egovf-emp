@@ -9,7 +9,8 @@ import com.fhce.emp.obj.empleadoObj;
 public interface empleadoService {
 	List<empleadoDtoResponse> listar();
 	empleadoDtoResponse addEmpleado(empleadoDtoRequest empleadoDtoRequest);
-	empleadoDtoResponse updateEmpleado(empleadoDtoResponse empleadoDtoResponse); 
+	empleadoDtoResponse updateEmpleado(empleadoDtoResponse empleadoDtoResponse);
+	empleadoDtoResponse updateFoto(empleadoDtoResponse empleadoDtoResponse);
 	List<empleadoObj> getListaEmpleado(Long tipo);
 	List<empleadoObj> getEmpleados();
 	empleadoObj getEmpleado(Long cif);

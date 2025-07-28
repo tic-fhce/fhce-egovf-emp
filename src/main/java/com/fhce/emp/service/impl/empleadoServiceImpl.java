@@ -81,6 +81,15 @@ public class empleadoServiceImpl implements empleadoService{
 		this.empleadoDao.save(empleadoModel);
 		return this.modelMapper.map(empleadoModel, empleadoDtoResponse.class);
 	}
+	@Transactional
+	public empleadoDtoResponse updateFoto(empleadoDtoResponse empleadoDtoResponse) {
+		
+		// el Request se combierte al modelo
+		empleadoModel empleadoModel = this.empleadoDao.getEmpleado(empleadoDtoResponse.getCif());
+		empleadoModel.setFoto(empleadoDtoResponse.getFoto());
+		this.empleadoDao.save(empleadoModel);
+		return this.modelMapper.map(empleadoModel, empleadoDtoResponse.class);
+	}
 	public List<empleadoObj> getListaEmpleado(Long tipo) {
 		
 		List<empleadoObj> listaEmpleadoObj = new ArrayList<empleadoObj>();
